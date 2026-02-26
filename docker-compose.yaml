@@ -11,7 +11,8 @@ services:
       - db_network
   python:
     build:
-      context: ./docker/python
+      context: .
+      dockerfile: ./docker/python/Dockerfile
     volumes:
       - .:/code
     depends_on:

@@ -1,8 +1,9 @@
-FROM python:3.7
+FROM python:3.14
 RUN apt-get update -y && apt-get upgrade -y
 RUN apt-get install \
     gcc nano \
     ffmpeg libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0 \
     postgresql postgresql-contrib -y
-RUN pip install numpy scipy matplotlib pydub pyaudio psycopg2
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 WORKDIR /code

@@ -2,13 +2,13 @@ import argparse
 import json
 import sys
 from argparse import RawTextHelpFormatter
-from os.path import isdir
+from os.path import exists, isdir
 
 from dejavu import Dejavu
 from dejavu.logic.recognizer.file_recognizer import FileRecognizer
 from dejavu.logic.recognizer.microphone_recognizer import MicrophoneRecognizer
 
-DEFAULT_CONFIG_FILE = "dejavu.cnf.SAMPLE"
+DEFAULT_CONFIG_FILE = "dejavu.cnf" if exists("dejavu.cnf") else "dejavu.cnf.SAMPLE"
 
 
 def init(configpath):
@@ -81,4 +81,19 @@ if __name__ == '__main__':
             songs = djv.recognize(MicrophoneRecognizer, seconds=opt_arg)
         elif source == 'file':
             songs = djv.recognize(FileRecognizer, opt_arg)
-        print(songs)
+
+        # Output JSON for test compatibility (bytes must be decoded)
+        if songs is None:
+            print("None")
+        else:
+            def _to_json_serializable(obj):
+                if isinstance(obj, bytes):
+                    return obj.decode("utf-8")
+                if isinstance(obj, dict):
+                    return {k: _to_json_serializable(v) for k, v in obj.items()}
+                if isinstance(obj, list):
+                    return [_to_json_serializable(i) for i in obj]
+                if hasattr(obj, 'item'):  # numpy scalars
+                    return obj.item()
+                return obj
+            print(json.dumps(_to_json_serializable(songs)))
