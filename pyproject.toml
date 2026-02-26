@@ -1,7 +1,7 @@
 [project]
-name = "code"
+name = "dejavu"
 version = "0.1.0"
-description = "Add your description here"
+description = "Audio fingerprinting and recognition in Python"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
