@@ -1,19 +1,5 @@
 from setuptools import find_packages, setup
 
-
-def parse_requirements(requirements):
-    # load from requirements.txt
-    with open(requirements) as f:
-        lines = [l for l in f]
-        # remove spaces
-        stripped = list(map((lambda x: x.strip()), lines))
-        # remove comments
-        nocomments = list(filter((lambda x: not x.startswith('#')), stripped))
-        # remove empty lines
-        reqs = list(filter((lambda x: x), nocomments))
-        return reqs
-
-
 PACKAGE_NAME = "PyDejavu"
 PACKAGE_VERSION = "0.1.3"
 SUMMARY = 'Dejavu: Audio Fingerprinting in Python'
@@ -31,7 +17,6 @@ database, returning the song or recording being played.
 
 __ http://willdrevo.com/fingerprinting-and-audio-recognition-with-python/
 """
-REQUIREMENTS = parse_requirements("requirements.txt")
 
 setup(
     name=PACKAGE_NAME,
@@ -47,7 +32,6 @@ setup(
     include_package_data=True,
     packages=find_packages(),
     platforms=['Unix'],
-    install_requires=REQUIREMENTS,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
